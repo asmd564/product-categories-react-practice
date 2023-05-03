@@ -22,15 +22,17 @@ const products = productsFromServer.map((product) => {
 
 export const App = () => {
   const [value, setValue] = useState('');
-  const [selectedUser, setSelectedUser] = useState('All');
-  const [visibleProducts, setVisibleProducts] = useState(products);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const sortedProducts = products.filter((product) => {
     const sortedValue = value.toLowerCase();
     const sortedName = product.name.toLowerCase();
 
-    return sortedName.includes(sortedValue);
+    return sortedName.includes(sortedValue)
+    && (product.user.id === selectedUser || selectedUser === null);
   });
+
+  const [visibleProducts, setVisibleProducts] = useState(sortedProducts);
 
   const userSelect = (userId) => {
     setSelectedUser(userId);
@@ -44,7 +46,7 @@ export const App = () => {
   const handleResetAll = () => {
     setValue('');
     setVisibleProducts(products);
-    setSelectedUser('All');
+    setSelectedUser(null);
   };
 
   useEffect(() => {
@@ -64,8 +66,8 @@ export const App = () => {
               <a
                 data-cy="FilterAllUsers"
                 href="#/"
-                className={cn({ 'is-active': selectedUser === 'All' })}
-                onClick={() => userSelect('All')}
+                className={cn({ 'is-active': selectedUser === null })}
+                onClick={() => userSelect(null)}
               >
                 All
               </a>
