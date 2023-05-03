@@ -21,19 +21,25 @@ const products = productsFromServer.map((product) => {
 });
 
 export const App = () => {
+  const [value, setValue] = useState('');
   const [selectedUser, setSelectedUser] = useState('All');
   const [visibleProducts, setVisibleProducts] = useState(products);
+
+  const sortedProducts = products.filter((product) => {
+    const sortedValue = value.toLowerCase();
+    const sortedName = product.name.toLowerCase();
+
+    return sortedName.includes(sortedValue);
+  });
+
   const userSelect = (userId) => {
     setSelectedUser(userId);
   };
+  
 
   useEffect(() => {
-    const filteredProducts = products.filter(product => (
-      product.user.id === selectedUser || selectedUser === 'All'
-    ));
-
-    setVisibleProducts(filteredProducts);
-  }, [selectedUser]);
+    setVisibleProducts(sortedProducts);
+  }, [selectedUser, value]);
 
   return (
     <div className="section">
@@ -76,8 +82,8 @@ export const App = () => {
                   type="text"
                   className="input"
                   placeholder="Search"
-                  value="qwe"
-                  onChange={() => {}}
+                  value={value}
+                  onChange={event => setValue(event.target.value)}
                 />
 
                 <span className="icon is-left">
@@ -157,55 +163,55 @@ export const App = () => {
             className="table is-striped is-narrow is-fullwidth"
           >
             <thead>
-            <tr>
-              <th>
-                <span className="is-flex is-flex-wrap-nowrap">
-                  ID
+              <tr>
+                <th>
+                  <span className="is-flex is-flex-wrap-nowrap">
+                    ID
 
-                  <a href="#/">
-                    <span className="icon">
-                      <i data-cy="SortIcon" className="fas fa-sort" />
-                    </span>
-                  </a>
-                </span>
-              </th>
+                    <a href="#/">
+                      <span className="icon">
+                        <i data-cy="SortIcon" className="fas fa-sort" />
+                      </span>
+                    </a>
+                  </span>
+                </th>
 
-              <th>
-                <span className="is-flex is-flex-wrap-nowrap">
-                  Product
+                <th>
+                  <span className="is-flex is-flex-wrap-nowrap">
+                    Product
 
-                  <a href="#/">
-                    <span className="icon">
-                      <i data-cy="SortIcon" className="fas fa-sort-down" />
-                    </span>
-                  </a>
-                </span>
-              </th>
+                    <a href="#/">
+                      <span className="icon">
+                        <i data-cy="SortIcon" className="fas fa-sort-down" />
+                      </span>
+                    </a>
+                  </span>
+                </th>
 
-              <th>
-                <span className="is-flex is-flex-wrap-nowrap">
-                  Category
+                <th>
+                  <span className="is-flex is-flex-wrap-nowrap">
+                    Category
 
-                  <a href="#/">
-                    <span className="icon">
-                      <i data-cy="SortIcon" className="fas fa-sort-up" />
-                    </span>
-                  </a>
-                </span>
-              </th>
+                    <a href="#/">
+                      <span className="icon">
+                        <i data-cy="SortIcon" className="fas fa-sort-up" />
+                      </span>
+                    </a>
+                  </span>
+                </th>
 
-              <th>
-                <span className="is-flex is-flex-wrap-nowrap">
-                  User
+                <th>
+                  <span className="is-flex is-flex-wrap-nowrap">
+                    User
 
-                  <a href="#/">
-                    <span className="icon">
-                      <i data-cy="SortIcon" className="fas fa-sort" />
-                    </span>
-                  </a>
-                </span>
-              </th>
-            </tr>
+                    <a href="#/">
+                      <span className="icon">
+                        <i data-cy="SortIcon" className="fas fa-sort" />
+                      </span>
+                    </a>
+                  </span>
+                </th>
+              </tr>
             </thead>
 
             <tbody>
