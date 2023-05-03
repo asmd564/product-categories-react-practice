@@ -35,7 +35,17 @@ export const App = () => {
   const userSelect = (userId) => {
     setSelectedUser(userId);
   };
-  
+
+  const handleReset = () => {
+    setValue('');
+    setVisibleProducts(products);
+  };
+
+  const handleResetAll = () => {
+    setValue('');
+    setVisibleProducts(products);
+    setSelectedUser('All');
+  };
 
   useEffect(() => {
     setVisibleProducts(sortedProducts);
@@ -95,6 +105,7 @@ export const App = () => {
                     data-cy="ClearButton"
                     type="button"
                     className="delete"
+                    onClick={() => handleReset()}
                   />
                 </span>
               </p>
@@ -146,6 +157,7 @@ export const App = () => {
                 data-cy="ResetAllButton"
                 href="#/"
                 className="button is-link is-outlined is-fullwidth"
+                onClick={() => handleResetAll()}
               >
                 Reset all filters
               </a>
